@@ -15,16 +15,15 @@
 			var charactersettings = document.getElementById('charactersettings');
 			document.getElementById('charactersettings').innerHTML = "";
 			for (var character = 0; character < numChars; character++){
-				document.getElementById('charactersettings').innerHTML += "<p><label>Character "+(character+1)+' <input type="text" placeholder="Type here."></p></label>';
+				document.getElementById('charactersettings').innerHTML += "<p class='characters' id="+(character+1)+"><label>Character "+(character+1)+' <input type="text" placeholder="Type here." onchange="AddtoCharacterList('(character+1)')"></p></label>';
 			}
 		}
-		
-		
 		//---- variables based on user settings (characters, female/male, etc)-----
-		//settings.onchange
-			var mycharacter = "Claire"; //some input
-			var othercharacters = ["Jane", "Mark"]; //all of the other characters
-			
+		function AddtoCharacterList(idofcharacter){
+			var othercharacters = new Array();
+			characters.push(document.getElementbyId(idofcharacter).value);
+			//if my character, remove from othercharacters
+		}
 		//-------for reading the text file input ------
 			window.onload = function() {
 				var fileInput = document.getElementById('fileInput');
