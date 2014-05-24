@@ -2,8 +2,37 @@
 <html>
 	<head>
 		<title> Running Lines </title>
-		<link rel="stylesheet" type="text/css" href="interface2.css">
+		<link rel="stylesheet" type="text/css" href="index.css">
+		<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+		<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+		<script type="text/javascript">
+			window.onload = function() {
+				var fileInput = document.getElementById('fileInput');
+
+				fileInput.addEventListener('change', function(e) {
+					var file = fileInput.files[0];
+					var textType = /text.*/;
+					if (file.type.match(textType)) {
+						var reader = new FileReader();
+						reader.onload = function(e) {
+							fileDisplayArea.innerText = reader.result;
+						}
+						reader.readAsText(file);	
+					} 
+					else {
+						fileDisplayArea.innerText = "File not supported!"
+					}
+				});
+				alert(reader);
+			}
+			// If record button pressed, speech api starts to listen. var talking = user
+			// If record button pressed again, speech api stops listening. var taling = computer
+			
+		</script>
 	</head>
 	<body>
+		<div>
+      		<input type="file" id="fileInput"> <!--input prompt for text file-->
+		</div>
 	</body>
 </html>
