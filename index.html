@@ -15,14 +15,19 @@
 			var charactersettings = document.getElementById('charactersettings');
 			document.getElementById('charactersettings').innerHTML = "";
 			for (var character = 0; character < numChars; character++){
-				document.getElementById('charactersettings').innerHTML += "<p class='characters' id="+(character+1)+"><label>Character "+(character+1)+' <input type="text" placeholder="Type here." onchange="AddtoCharacterList('(character+1)')"></p></label>';
+				document.getElementById('charactersettings').innerHTML += "<p class='characters' id="+(character+1)+" onclick='setMyCharacter("+(character+1)+")'><label>Character "+(character+1)+' <input type="text" placeholder="Type here." onchange="AddtoCharacterList('(character+1)')"></p></label>';
 			}
 		}
 		//---- variables based on user settings (characters, female/male, etc)-----
 		function AddtoCharacterList(idofcharacter){
 			var othercharacters = new Array();
-			characters.push(document.getElementbyId(idofcharacter).value);
+			othercharacters.push(document.getElementbyId(idofcharacter).value);
 			//if my character, remove from othercharacters
+
+		}
+		function setMyCharacter(idofcharacter){
+			var myCharacter = document.getElementbyId(idofcharacter).value;
+			othercharacters.remove(myCharacter);
 		}
 		//-------for reading the text file input ------
 			window.onload = function() {
