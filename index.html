@@ -38,10 +38,10 @@
 
 				var stripped = alllines.replace(basicRtfPattern,"");
 				stripped = stripped.trim();
-				
+
 				var lines = stripped.split('\n');
 				var chlinepairs = new Array();
-				
+
 				for (var ln = 0; ln < lines.length; ln++) {  //ln stands for line number
 					chlinepairs[ln] = new Array();
 					var newl = lines[ln];
@@ -54,7 +54,7 @@
 				}
 				alert(chlinepairs);
 				return chlinepairs;
-				
+
 			}
 		// -------SPEAK Text----
 			function runLines(chlinepairs){
@@ -68,21 +68,51 @@
 						alert("your turn!");
 					}
 				}
-				
+
 			}
 			function speak(line){
 				var toSpeak = new SpeechSynthesisUtterance(line);
 				window.speechSynthesis.speak(toSpeak);
 			}
-			
+
 			// If record button pressed, speech api starts to listen. var talking = user
 			// If record button pressed again, speech api stops listening. var talking = computer
-			
-		</script>
+
+		</script>	
 	</head>
 	<body>
+			
 		<div>
       		<input type="file" id="fileInput"> <!--input prompt for text file-->
 		</div>
+		
+		</p> <form>
+		<fieldset>
+			<legend>Characters</legend>
+				<select>
+					<option>1</option>
+					<option>2</option>
+					<option>3</option>
+				</select>
+				
+				<p> <label>Character 1
+				<input type="text" placeholder="Type here.">
+				</p>
+				</label>
+				
+				<p> <label>Character 2
+				<input type="text" placeholder="Type here.">
+				</p>
+				</label>
+				
+				<p> <label>Character 3
+				<input type="text" placeholder="Type here.">
+				</p>
+				</label>
+		</fieldset>
+		</form>
+		</p> 
+	<script src "js/bootstrap.js"> </script>
+	
 	</body>
 </html>
