@@ -1,11 +1,17 @@
 <!DOCTYPE html>
 <html>
 	<head>
+		<meta charset="utf-8">
 		<title> Running Lines </title>
 		<link rel="stylesheet" type="text/css" href="index.css">
 		<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
 		<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
 		<script type="text/javascript">
+		//---- variables based on user settings (characters, female/male, etc)-----
+		//settings.onchange
+			var mycharacter = new String //some input
+			var othercharacters = new Array() //all of the other characters
+		//-------for reading the text file input ------
 			window.onload = function() {
 				var fileInput = document.getElementById('fileInput');
 
@@ -15,18 +21,55 @@
 					if (file.type.match(textType)) {
 						var reader = new FileReader();
 						reader.onload = function(e) {
-							fileDisplayArea.innerText = reader.result;
+							var alltext = parseInput(reader.result);
+							runLines(alltext);
 						}
 						reader.readAsText(file);	
 					} 
 					else {
-						fileDisplayArea.innerText = "File not supported!"
+						fileDisplayArea.innerText = "File not supported!";
 					}
 				});
-				alert(reader);
 			}
+			function parseInput(alllines){ //creates a nested list: [[character,line],[character,line]] etc
+				var basicRtfPattern = /\{\*?\\[^{}]+}|[{}]|\\[A-Za-z]+\n?(?:-?\d+)?[ ]?/g;
+				var newLineSlashesPattern = /\\\n/g;
+
+				var stripped = alllines.replace(basicRtfPattern,"");
+				stripped = stripped.trim();
+				
+				var lines = stripped.split('\n');
+				var chlinepairs = new Array();
+				
+				for (var ln = 0; ln < lines.length; ln++) {  //ln stands for line number
+					chlinepairs[ln] = new Array();
+					var newl = lines[ln];
+					if (newl[newl.length-1]=="\\"){ //if last ch is \, remove
+						newl = newl.slice(0,-1);
+					}
+					newl = newl.split(" \\'97"); //splits on double dash
+					chlinepairs[ln][0] = newl[0];
+					chlinepairs[ln][1] = newl[1];
+				}
+				alert(chlinepairs);
+				return chlinepairs;
+				
+			}
+		// -------SPEAK Text----
+			function runLines(chlinepairs){
+				//if the character is not == the user's character:
+				for (currline = 0; currline < chlinepairs.length; currline++){
+					speak(chlinepairs[currline][1]);
+				}
+				
+			}
+			function speak(line){
+				var toSpeak = new SpeechSynthesisUtterance(line);
+				window.speechSynthesis.speak(toSpeak);
+			}
+			
 			// If record button pressed, speech api starts to listen. var talking = user
-			// If record button pressed again, speech api stops listening. var taling = computer
+			// If record button pressed again, speech api stops listening. var talking = computer
 			
 		</script>
 	</head>
