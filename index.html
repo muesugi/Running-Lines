@@ -5,8 +5,8 @@
 		<title> Running Lines </title>
 		<link rel="stylesheet" type="text/css" href="index.css">
 		<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
-		<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"> </script>
-		<link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+		<!--<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"> </script>
+		<link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">-->
 		<script type="text/javascript">
 		//----- Website Formatting
 		function showCharBox(){
@@ -15,8 +15,11 @@
 			var charactersettings = document.getElementById('charactersettings');
 			document.getElementById('charactersettings').innerHTML = "";
 			for (var character = 0; character < numChars; character++){
-				document.getElementById('charactersettings').innerHTML += "<p class='characters' id="+(character+1)+" onclick='setMyCharacter("+(character+1)+")'><label>Character "+(character+1)+' <input type="text" placeholder="Type here." onchange="AddtoCharacterList('(character+1)')"></p></label>';
+				document.getElementById('charactersettings').innerHTML += "<p class='characters' id="+(character+1)+" onhover='hoverCharacter("+(character+1)+")' onclick='setMyCharacter("+(character+1)+")'><label>Character "+(character+1)+" <input type='text' placeholder='Type here.' onchange='AddtoCharacterList("+(character+1)+")'></p></label>";
 			}
+		}
+		function hoverCharacter(idofcharacter){
+			document.getElementById(idofcharacter).style("color:red");
 		}
 		//---- variables based on user settings (characters, female/male, etc)-----
 		function AddtoCharacterList(idofcharacter){
@@ -26,7 +29,9 @@
 
 		}
 		function setMyCharacter(idofcharacter){
-			var myCharacter = document.getElementbyId(idofcharacter).value;
+			if (typeof document.getElementbyId(idofcharacter).value != "undefined"){ 
+				var myCharacter = document.getElementbyId(idofcharacter).value;
+			}
 			othercharacters.remove(myCharacter);
 		}
 		//-------for reading the text file input ------
