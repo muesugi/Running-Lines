@@ -9,8 +9,9 @@
 		<script type="text/javascript">
 		//---- variables based on user settings (characters, female/male, etc)-----
 		//settings.onchange
-			var mycharacter = new String //some input
-			var othercharacters = new Array() //all of the other characters
+			var mycharacter = "Claire"; //some input
+			var othercharacters = ["Jane", "Mark"]; //all of the other characters
+			
 		//-------for reading the text file input ------
 			window.onload = function() {
 				var fileInput = document.getElementById('fileInput');
@@ -59,7 +60,13 @@
 			function runLines(chlinepairs){
 				//if the character is not == the user's character:
 				for (currline = 0; currline < chlinepairs.length; currline++){
-					speak(chlinepairs[currline][1]);
+					alert(chlinepairs[currline][0]);
+					if (othercharacters.indexOf(chlinepairs[currline][0])>=0){
+						speak(chlinepairs[currline][1]);
+					}
+					else{
+						alert("your turn!");
+					}
 				}
 				
 			}
