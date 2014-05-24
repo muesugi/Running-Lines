@@ -5,8 +5,20 @@
 		<title> Running Lines </title>
 		<link rel="stylesheet" type="text/css" href="index.css">
 		<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
-		<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+		<script src "js/bootstrap.js"> </script>
 		<script type="text/javascript">
+		//----- Website Formatting
+		function showCharBox(){
+			var numChars = document.getElementById("numChars").value;
+			alert(numChars);
+			var charactersettings = document.getElementById('charactersettings');
+			document.getElementById('charactersettings').innerHTML = "";
+			for (var character = 0; character < numChars; character++){
+				document.getElementById('charactersettings').innerHTML += "<p><label>Character "+(character+1)+' <input type="text" placeholder="Type here."></p></label>';
+			}
+		}
+		
+		
 		//---- variables based on user settings (characters, female/male, etc)-----
 		//settings.onchange
 			var mycharacter = "Claire"; //some input
@@ -81,20 +93,24 @@
 		</script>	
 	</head>
 	<body>
-			
 		<div>
       		<input type="file" id="fileInput"> <!--input prompt for text file-->
 		</div>
 		
-		</p> <form>
+		<p> <form>
 		<fieldset>
 			<legend>Characters</legend>
-				<select>
+				<select id= "numChars" onchange="showCharBox()">
+					<option></option>
 					<option>1</option>
 					<option>2</option>
 					<option>3</option>
+					<option>4</option>
+					<option>5</option>
+					<option>6</option>
 				</select>
-				
+				<div id= "charactersettings">
+				<!--
 				<p> <label>Character 1
 				<input type="text" placeholder="Type here.">
 				</p>
@@ -109,10 +125,12 @@
 				<input type="text" placeholder="Type here.">
 				</p>
 				</label>
+				-->
+				</div>
 		</fieldset>
 		</form>
 		</p> 
-	<script src "js/bootstrap.js"> </script>
+	<!---->
 	
 	</body>
 </html>
