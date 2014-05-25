@@ -5,8 +5,6 @@
 		<title> Running Lines </title>
 		<link rel="stylesheet" type="text/css" href="index.css">
 		<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
-		<!--<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"> </script>
-		<link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">-->
 		<script type="text/javascript">
 		//----- Website Formatting
 		function showCharBox(){
@@ -14,8 +12,8 @@
 			var numChars = dropdown.value;
 			document.getElementById('charactersettings').innerHTML = "";
 			for (var character = 0; character < numChars; character++){
-				document.getElementById('charactersettings').innerHTML += '<button type="button" onclick="setMyCharacter()">You</button>';
-				document.getElementById('charactersettings').innerHTML += "<p class='characters' id='character"+(character+1)+"'><label>Character "+(character+1)+' </label><input type="text" onblur="if (this.value) AddtoCharacterList(this.value)" value="" placeholder="Type here."></p>';
+				// document.getElementById('charactersettings').innerHTML += '<button type="button" onclick="setMyCharacter()">You</button>';
+				document.getElementById('charactersettings').innerHTML += "<p class='characters' id='character"+(character+1)+"'><label>Character "+(character+1)+' </label><input type="text" onblur="if (this.value) AddtoCharacterList(this.value)" value="" placeholder="Type here..."></p>';
 			}
 		}
 		//---- variables based on user settings (characters, female/male, etc)-----
@@ -143,7 +141,7 @@
 		<ul class="tabs">
 			<li><a href="#tab1" class="active">Choose A File</a></li>
 			<li><a href="#tab2" class="">Character Settings</a></li>
-			<li><a href="#tab3" class="">Text Input</a></li>
+			<li><a href="#tab3" class="">Text Area</a></li>
 		</ul>
 		<div id="tab1" style="display: block;">
 			<h3>Open a File</h3>
@@ -165,7 +163,7 @@
 		</p>
 		</div>
 		<div id="tab3" style="display: none;">
-			<h3>Optional text input</h3>
+			<h3>Optional Text Input</h3>
 		</div>
 
 	</body>
