@@ -16,11 +16,12 @@
 			document.getElementById('charactersettings').innerHTML = "";
 			for (var character = 0; character < numChars; character++){
 				document.getElementById('charactersettings').innerHTML += "<p class='characters' id='character"+(character+1)+"'><label onclick='setMyCharacter("+(character+1)+")'>Character "+(character+1)+" </label><input type='text' onblur='if (this.value) AddtoCharacterList("+(character+1)+",this.value)' value='' placeholder='Type here.'></p>";
+		
 			}
 		}
 		//---- variables based on user settings (characters, female/male, etc)-----
 		function AddtoCharacterList(num,value){
-			var character = String(value.replace(/\s+/g, ''));
+			var character = value.replace(/\s+/g, '');
 			if (num===1){
 				var character1 = character;
 			}
@@ -46,7 +47,8 @@
 		function setMyCharacter(num){
 			alert(num);
 			if (num==1){
-				myCharacter = character1;
+				myCharacter = character1.toString();
+				alert(character1);
 			}
 			else if (num==2){
 				myCharacter = character2;
@@ -116,7 +118,11 @@
 			function runLines(chlinepairs){
 				//if the character is not == the user's character:
 				for (currline = 0; currline < chlinepairs.length; currline++){
-					if (String(myCharacter)==String(chlinepairs[currline][0])){
+					var utterance = new SpeechSynthesisUtterance(chlinepairs[currline][1]);
+					var voices = window.speechSynthesis.getVoices();
+					//set character here  (voice)
+					utterance.voice = voices.filter(function(voice) { return voice.name == 'Alex'; })[0];
+					if (myCharacter==chlinepairs[currline][0]){
 						alert("your turn!");
 					}
 					else{
