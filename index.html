@@ -7,32 +7,69 @@
 		<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
 		<!--<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"> </script>
 		<link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">-->
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 		<script type="text/javascript">
 		//----- Website Formatting
 		function showCharBox(){
-			var numChars = document.getElementById("numChars").value;
-			alert(numChars);
-			var charactersettings = document.getElementById('charactersettings');
+			var dropdown = document.getElementById("numChars");
+			var numChars = dropdown.value;
 			document.getElementById('charactersettings').innerHTML = "";
 			for (var character = 0; character < numChars; character++){
-				document.getElementById('charactersettings').innerHTML += "<p class='characters' id="+(character+1)+" onhover='hoverCharacter("+(character+1)+")' onclick='setMyCharacter("+(character+1)+")'><label>Character "+(character+1)+" <input type='text' placeholder='Type here.' onchange='AddtoCharacterList("+(character+1)+")'></p></label>";
+				document.getElementById('charactersettings').innerHTML += "<p class='characters' id='character"+(character+1)+"'><label onclick='setMyCharacter("+(character+1)+")'>Character "+(character+1)+" </label><input type='text' onblur='if (this.value) AddtoCharacterList("+(character+1)+",this.value)' value='' placeholder='Type here.'></p>";
+		
 			}
-		}
-		function hoverCharacter(idofcharacter){
-			document.getElementById(idofcharacter).style("color:red");
 		}
 		//---- variables based on user settings (characters, female/male, etc)-----
-		function AddtoCharacterList(idofcharacter){
-			var othercharacters = new Array();
-			othercharacters.push(document.getElementbyId(idofcharacter).value);
-			//if my character, remove from othercharacters
-
-		}
-		function setMyCharacter(idofcharacter){
-			if (typeof document.getElementbyId(idofcharacter).value != "undefined"){ 
-				var myCharacter = document.getElementbyId(idofcharacter).value;
+		function AddtoCharacterList(num,value){
+			var character = value.replace(/\s+/g, '');
+			if (num===1){
+				var character1 = character;
 			}
-			othercharacters.remove(myCharacter);
+			else if (num===2){
+				var character2 = character;
+			}
+			else if (num===3){
+				var character3 = character;
+			}
+			else if (num===4){
+				var character4 = character;
+			}
+			else if (num===5){
+				var character5 = character;
+			}
+			else if (num===6){
+				var character6 = character;
+			}
+			if (characters.indexOf(character)<0){
+				characters.push(character);
+			}
+		}
+		function setMyCharacter(num){
+			alert(num);
+			if (num==1){
+				myCharacter = character1.toString();
+				alert(character1);
+			}
+			else if (num==2){
+				myCharacter = character2;
+			}
+			else if (num==3){
+				myCharacter = character3;
+			}
+			else if (num==4){
+				myCharacter = character4;
+			}
+			else if (num==5){
+				myCharacter = character5;
+			}
+			else if (num==6){
+				myCharacter = character6;
+			}
+			for (var psn = 0; psn<characters.length;psn++){
+				if (psn!==(num-1)){
+					others.push(characters[psn]);
+				}
+			}
 		}
 		//-------for reading the text file input ------
 			window.onload = function() {
@@ -74,7 +111,6 @@
 					chlinepairs[ln][0] = newl[0];
 					chlinepairs[ln][1] = newl[1];
 				}
-				alert(chlinepairs);
 				return chlinepairs;
 
 			}
@@ -82,69 +118,112 @@
 			function runLines(chlinepairs){
 				//if the character is not == the user's character:
 				for (currline = 0; currline < chlinepairs.length; currline++){
-					alert(chlinepairs[currline][0]);
-					if (othercharacters.indexOf(chlinepairs[currline][0])>=0){
-						speak(chlinepairs[currline][1]);
-					}
-					else{
+					var utterance = new SpeechSynthesisUtterance(chlinepairs[currline][1]);
+					var voices = window.speechSynthesis.getVoices();
+					//set character here  (voice)
+					utterance.voice = voices.filter(function(voice) { return voice.name == 'Alex'; })[0];
+					if (myCharacter==chlinepairs[currline][0]){
 						alert("your turn!");
 					}
+					else{
+						speak(utterance);
+					}
 				}
-
+			}
+			function loadVoices() {
+				var voiceSelect = document.getElementById('voiceSelect');
+			  // Fetch the available voices.
+				var voices = speechSynthesis.getVoices();
+  
+			  // Loop through each of the voices.
+				voices.forEach(function(voice, i) {
+				// Create a new option element.
+					var option = document.createElement('option');
+	
+				// Set the options value and text.
+					option.value = voice.name;
+					option.innerHTML = voice.name;
+		  
+				// Add the option to the voice selector.
+					voiceSelect.appendChild(option);
+				});
 			}
 			function speak(line){
 				var toSpeak = new SpeechSynthesisUtterance(line);
+				
 				window.speechSynthesis.speak(toSpeak);
 			}
 
 			// If record button pressed, speech api starts to listen. var talking = user
 			// If record button pressed again, speech api stops listening. var talking = computer
-
+		
+		// Wait until the DOM has loaded before querying the document
+		$(document).ready(function(){
+		$('ul.tabs').each(function(){
+		// For each set of tabs, we want to keep track of
+		// which tab is active and it's associated content
+		var $active, $content, $links = $(this).find('a');
+		// If the location.hash matches one of the links, use that as the active tab.
+		// If no match is found, use the first link as the initial active tab.
+		$active = $($links.filter('[href="'+location.hash+'"]')[0] || $links[0]);
+		$active.addClass('active');
+		$content = $($active[0].hash);
+		// Hide the remaining content
+		$links.not($active).each(function () {
+		$(this.hash).hide();
+		});
+		// Bind the click event handler
+		$(this).on('click', 'a', function(e){
+		// Make the old tab inactive.
+		$active.removeClass('active');
+		$content.hide();
+		// Update the variables with the new link and content
+		$active = $(this);
+		$content = $(this.hash);
+		// Make the tab active.
+		$active.addClass('active');
+		$content.show();
+		// Prevent the anchor's default click action
+		e.preventDefault();
+		});
+		});
+		});
 		</script>	
-
 	</head>
-	
 	<body>
-		<div>
-      		<input type="file" id="fileInput"> <!--input prompt for text file-->
+		<script>
+			var characters = new Array();
+			var others = new Array();
+			var myCharacter = new String;
+		</script>
+		<button type="button" onclick="runLines(alltext)">Run</button>
+		<ul class="tabs">
+			<li><a href="#tab1" class="active">Choose A File</a></li>
+			<li><a href="#tab2" class="">Character Settings</a></li>
+			<li><a href="#tab3" class="">Text Input</a></li>
+		</ul>
+		<div id="tab1" style="display: block;">
+			<h3>Choose A File</h3>
+			<p><input type="file" id="fileInput"> <!--input prompt for text file--></p>
 		</div>
-		
-		<script src="https://gist.github.com/mnewt/4228037.js"></script>
-		
-		<p> <form>
-		<fieldset>
-			<legend>Characters</legend>
-				<select id= "numChars" onchange="showCharBox()">
-					<option></option>
-					<option>1</option>
-					<option>2</option>
-					<option>3</option>
-					<option>4</option>
-					<option>5</option>
-					<option>6</option>
-				</select>
-				<div id= "charactersettings">
-				<!--
-				<p> <label>Character 1
-				<input type="text" placeholder="Type here.">
-				</p>
-				</label>
-				
-				<p> <label>Character 2
-				<input type="text" placeholder="Type here.">
-				</p>
-				</label>
-				
-				<p> <label>Character 3
-				<input type="text" placeholder="Type here.">
-				</p>
-				</label>
-				-->
-				</div>
-		</fieldset>
-		</form>
-		</p>		
-	<!---->
-		
+		<div id="tab2" style="display: none;">
+		<h3>Choose Number of Characters</h3>
+		<p>
+			<select id= "numChars" onchange="showCharBox()">
+				<option></option> <p> <select name="numVoice" id="voiceSelect"></select></p>
+				<option>1</option>
+				<option>2</option>
+				<option>3</option>
+				<option>4</option>
+				<option>5</option>
+				<option>6</option>
+			</select>
+			<div id= "charactersettings"></div>
+		</p>
+		</div>
+		<div id="tab3" style="display: none;">
+			<h3>Optional text input</h3>
+		</div>
+
 	</body>
 </html>
