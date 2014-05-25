@@ -171,10 +171,15 @@
 				
 				window.speechSynthesis.speak(toSpeak);
 			}
-
-			// If record button pressed, speech api starts to listen. var talking = user
-			// If record button pressed again, speech api stops listening. var talking = computer
-		
+			 
+			// function speechRecog(){
+// 				var recognition = new webkitSpeechRecognition();
+// 				recognition.onresult = function(event) { 
+// 				  console.log(event) 
+// 				}
+// 				recognition.start();
+// 			
+// 			}
 		// Wait until the DOM has loaded before querying the document
 		$(document).ready(function(){
 		$('ul.tabs').each(function(){
