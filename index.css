@@ -31,3 +31,7 @@ color:#000;
 .characters{
 	display:inline;
 }
+
+a:hover {
+background: #c83e28;
+}
