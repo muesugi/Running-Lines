@@ -10,13 +10,14 @@
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 		<script type="text/javascript">
 		//----- Website Formatting
+		
 		function showCharBox(){
 			var dropdown = document.getElementById("numChars");
 			numChars = dropdown.value;
 			document.getElementById('charactersettings').innerHTML = "";
 			for (var character = 0; character < numChars; character++){
 				document.getElementById('charactersettings').innerHTML += "<p class='characters' id='character"+(character+1)+"'></p>";
-				document.getElementById('character'+(character+1)).innerHTML += "<label onclick='setMyCharacter("+(character+1)+")'>Character "+(character+1)+" </label><input type='text' onblur='if (this.value) AddtoCharacterList("+(character+1)+",this.value)' value='' placeholder='Type here.'>";
+				document.getElementById('character'+(character+1)).innerHTML += "<label onclick='setMyCharacter("+(character+1)+")' class='characterlabels'>Character "+(character+1)+" </label><input type='text' onblur='if (this.value) AddtoCharacterList("+(character+1)+",this.value)' value='' placeholder='Type here.'>";
 				document.getElementById('character'+(character+1)).innerHTML += "  <select name='voiceSelect' id='voiceSelect"+(character+1)+"'></select><br><br>"
 				loadVoices((character+1));
 			}
@@ -50,28 +51,30 @@
 		function setMyCharacter(num){
 			if (num==1){
 				myCharacter = character1;
-				myCharacternum = 1;
+				//$('#character1').style.color='#BF8B42';
 			}
 			else if (num==2){
 				myCharacter = character2;
-				myCharacternum = 2;
+				//$('#character2').style.color='#BF8B42';
 			}
 			else if (num==3){
 				myCharacter = character3;
-				myCharacternum = 3;
+				//$('#character3').style.color='#BF8B42';
 			}
 			else if (num==4){
 				myCharacter = character4;
-				myCharacternum = 4;
+				//$('#character4').style.color='#BF8B42';
 			}
 			else if (num==5){
 				myCharacter = character5;
-				myCharacternum = 5;
+				//$('#character5').style.color='#BF8B42';
 			}
 			else if (num==6){
 				myCharacter = character6;
-				myCharacternum = 6;
+				//$('#character6').style.color='#BF8B42';
 			}
+			$(this).css('color','#BF8B42');
+			myCharacternum = num;
 			for (var psn = 0; psn<characters.length;psn++){
 				if (psn!==(num-1)){
 					others.push(characters[psn]);
@@ -88,8 +91,7 @@
 					if (file.type.match(textType)) {
 						var reader = new FileReader();
 						reader.onload = function(e) {
-							var alltext = parseInput(reader.result);
-							runLines(alltext);
+							readFile(reader.result);
 						}
 						reader.readAsText(file);	
 					} 
@@ -97,6 +99,10 @@
 						fileDisplayArea.innerText = "File not supported!";
 					}
 				});
+			}
+			function readFile(data){
+				var alltext = parseInput(data);
+				runLines(alltext);
 			}
 			function parseInput(alllines){ //creates a nested list: [[character,line],[character,line]] etc
 				var basicRtfPattern = /\{\*?\\[^{}]+}|[{}]|\\[A-Za-z]+\n?(?:-?\d+)?[ ]?/g;
@@ -249,8 +255,13 @@
 		<div id="tab3" style="display: none;">
 			<h3>Optional text input</h3>
 				<div class="expandingArea">
+<<<<<<< HEAD
 					<pre><span></span><br></pre>
 					<textarea rows= "10" cols= "32" placeholder="Click to type here..."></textarea>
+=======
+					<!--<pre><span></span><br></pre>-->
+					<textarea id="textarea" onblur="readFile(this.value)" placeholder="Click to type here..."></textarea>
+>>>>>>> 7b3dc5b6c138025bcaaa58b1fdbee28634ed2711
 				</div> 
 		</div>	
 

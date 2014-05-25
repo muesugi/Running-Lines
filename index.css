@@ -31,6 +31,9 @@ color:#000;
 .characters{
 	display:inline;
 }
+.characters:hover{
+	color:#BF8B42;
+}
 
 a:hover {
 background: #c83e28;
