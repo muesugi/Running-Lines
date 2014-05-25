@@ -10,18 +10,27 @@
 		<script type="text/javascript">
 		//----- Website Formatting
 		function showCharBox(){
+<<<<<<< HEAD
 			var numChars = document.getElementById("numChars").value;
 			alert(numChars);
 			var charactersettings = document.getElementById('charactersettings');
 			document.getElementById('charactersettings').innerHTML = "";
 			for (var character = 0; character < numChars; character++){
 				document.getElementById('charactersettings').innerHTML += "<p class='characters' id="+(character+1)+" onhover='hoverCharacter("+(character+1)+")' onclick='setMyCharacter("+(character+1)+")'><label>Character "+(character+1)+" <input type='text' placeholder='Type here.' onchange='AddtoCharacterList("+(character+1)+")'></p></label>";
+=======
+			var dropdown = document.getElementById("numChars");
+			var numChars = dropdown.value;
+			document.getElementById('charactersettings').innerHTML = "";
+			for (var character = 0; character < numChars; character++){
+				document.getElementById('charactersettings').innerHTML += "<p class='characters' id='character"+(character+1)+"'><label>Character "+(character+1)+' </label><input type="text" onblur="if (this.value) AddtoCharacterList(this.value)" placeholder="Type here."></p>';// onclick='if (this.value) setMyCharacter("+(character+1)+")'
+>>>>>>> 04d54884e3c393af16a7216424107ade93dcf4ea
 			}
 		}
 		function hoverCharacter(idofcharacter){
 			document.getElementById(idofcharacter).style("color:red");
 		}
 		//---- variables based on user settings (characters, female/male, etc)-----
+<<<<<<< HEAD
 		function AddtoCharacterList(idofcharacter){
 			var othercharacters = new Array();
 			othercharacters.push(document.getElementbyId(idofcharacter).value);
@@ -33,7 +42,25 @@
 				var myCharacter = document.getElementbyId(idofcharacter).value;
 			}
 			othercharacters.remove(myCharacter);
+=======
+		function AddtoCharacterList(value){
+			if (others.indexOf(value)==-1){
+				others.push(value);
+			}
+			alert(others);
+>>>>>>> 04d54884e3c393af16a7216424107ade93dcf4ea
 		}
+		// function setMyCharacter(idofcharacter){
+// 			if ($("#character"+String(idofcharacter)).val() !== undefined){
+// 				alert($("#character"+String(idofcharacter)).val());
+// 				var myCharacter = $("#character"+String(idofcharacter)).val();
+// 				var i = others.indexOf(myCharacter);
+// 				if(i != -1) {
+// 					others.splice(i, 1);
+// 				}
+// 			}
+// 			
+// 		}
 		//-------for reading the text file input ------
 			window.onload = function() {
 				var fileInput = document.getElementById('fileInput');
@@ -113,9 +140,23 @@ margin: 20px;
 	</head>
 	
 	<body>
+<<<<<<< HEAD
+=======
+		<script>
+			var others = new Array();
+		</script>
+		<!--<div>
+      		<input type="file" id="fileInput"> <!--input prompt for text file-->
+		</div>-->
+>>>>>>> 04d54884e3c393af16a7216424107ade93dcf4ea
 		
 <!--		<p> <form>
 		<fieldset>
+<<<<<<< HEAD
+=======
+			<legend>File</legend>
+				<input type="file" id="fileInput"> <!--input prompt for text file-->
+>>>>>>> 04d54884e3c393af16a7216424107ade93dcf4ea
 			<legend>Characters</legend>
 				<select id= "numChars" onchange="showCharBox()">
 					<option></option>
@@ -126,7 +167,7 @@ margin: 20px;
 					<option>5</option>
 					<option>6</option>
 				</select>
-				<div id= "charactersettings">
+				<p id= "charactersettings">
 				<!--
 				<p> <label>Character 1
 				<input type="text" placeholder="Type here.">
@@ -142,8 +183,13 @@ margin: 20px;
 				<input type="text" placeholder="Type here.">
 				</p>
 				</label>
+<<<<<<< HEAD
 				
 				</div>
+=======
+				-->
+				</p>
+>>>>>>> 04d54884e3c393af16a7216424107ade93dcf4ea
 		</fieldset>
 		</form>
 		</p>		
