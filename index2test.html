@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title> Running Lines </title>
+		<link rel="stylesheet" type="text/css" href="index.css">
+		<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+		<!--<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"> </script>
+		<link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">-->
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+		<script type="text/javascript">
+		//----- Website Formatting
+		function showCharBox(){
+			var dropdown = document.getElementById("numChars");
+			var numChars = dropdown.value;
+			document.getElementById('charactersettings').innerHTML = "";
+			for (var character = 0; character < numChars; character++){
+				document.getElementById('charactersettings').innerHTML += "<p class='characters' id='character"+(character+1)+"'><label onclick='setMyCharacter("+(character+1)+")'>Character "+(character+1)+" </label><input type='text' onblur='if (this.value) AddtoCharacterList("+(character+1)+",this.value)' value='' placeholder='Type here.'></p>";
+			}
+		}
+		//---- variables based on user settings (characters, female/male, etc)-----
+		function AddtoCharacterList(num,value){
+			var character = String(value.replace(/\s+/g, ''));
+			if (num===1){
+				var character1 = character;
+			}
+			else if (num===2){
+				var character2 = character;
+			}
+			else if (num===3){
+				var character3 = character;
+			}
+			else if (num===4){
+				var character4 = character;
+			}
+			else if (num===5){
+				var character5 = character;
+			}
+			else if (num===6){
+				var character6 = character;
+			}
+			if (characters.indexOf(character)<0){
+				characters.push(character);
+			}
+		}
+		function setMyCharacter(num){
+			alert(num);
+			if (num==1){
+				myCharacter = character1;
+			}
+			else if (num==2){
+				myCharacter = character2;
+			}
+			else if (num==3){
+				myCharacter = character3;
+			}
+			else if (num==4){
+				myCharacter = character4;
+			}
+			else if (num==5){
+				myCharacter = character5;
+			}
+			else if (num==6){
+				myCharacter = character6;
+			}
+			for (var psn = 0; psn<characters.length;psn++){
+				if (psn!==(num-1)){
+					others.push(characters[psn])
+					;
+				}
+			}
+		}
+		//-------for reading the text file input ------
+			window.onload = function() {
+				var fileInput = document.getElementById('fileInput');
+
+				fileInput.addEventListener('change', function(e) {
+					var file = fileInput.files[0];
+					var textType = /text.*/;
+					if (file.type.match(textType)) {
+						var reader = new FileReader();
+						reader.onload = function(e) {
+							var alltext = parseInput(reader.result);
+							runLines(alltext);
+						}
+						reader.readAsText(file);	
+					} 
+					else {
+						fileDisplayArea.innerText = "File not supported!";
+					}
+				});
+			}
+			function parseInput(alllines){ //creates a nested list: [[character,line],[character,line]] etc
+				var basicRtfPattern = /\{\*?\\[^{}]+}|[{}]|\\[A-Za-z]+\n?(?:-?\d+)?[ ]?/g;
+				var newLineSlashesPattern = /\\\n/g;
+
+				var stripped = alllines.replace(basicRtfPattern,"");
+				stripped = stripped.trim();
+
+				var lines = stripped.split('\n');
+				var chlinepairs = new Array();
+
+				for (var ln = 0; ln < lines.length; ln++) {  //ln stands for line number
+					chlinepairs[ln] = new Array();
+					var newl = lines[ln];
+					if (newl[newl.length-1]=="\\"){ //if last ch is \, remove
+						newl = newl.slice(0,-1);
+					}
+					newl = newl.split(" \\'97"); //splits on double dash
+					chlinepairs[ln][0] = newl[0];
+					chlinepairs[ln][1] = newl[1];
+				}
+				return chlinepairs;
+
+			}
+		// -------SPEAK Text----
+			function runLines(chlinepairs){
+				//if the character is not == the user's character:
+				for (currline = 0; currline < chlinepairs.length; currline++){
+					if (String(myCharacter)==String(chlinepairs[currline][0])){
+						alert("your turn!");
+					}
+					else{
+						speak(chlinepairs[currline][1]);
+					}
+				}
+
+			}
+			function speak(line){
+				var toSpeak = new SpeechSynthesisUtterance(line);
+				
+				window.speechSynthesis.speak(toSpeak);
+			}
+
+			// If record button pressed, speech api starts to listen. var talking = user
+			// If record button pressed again, speech api stops listening. var talking = computer
+		
+		// Wait until the DOM has loaded before querying the document
+		$(document).ready(function(){
+		$('ul.tabs').each(function(){
+		// For each set of tabs, we want to keep track of
+		// which tab is active and it's associated content
+		var $active, $content, $links = $(this).find('a');
+		// If the location.hash matches one of the links, use that as the active tab.
+		// If no match is found, use the first link as the initial active tab.
+		$active = $($links.filter('[href="'+location.hash+'"]')[0] || $links[0]);
+		$active.addClass('active');
+		$content = $($active[0].hash);
+		// Hide the remaining content
+		$links.not($active).each(function () {
+		$(this.hash).hide();
+		});
+		// Bind the click event handler
+		$(this).on('click', 'a', function(e){
+		// Make the old tab inactive.
+		$active.removeClass('active');
+		$content.hide();
+		// Update the variables with the new link and content
+		$active = $(this);
+		$content = $(this.hash);
+		// Make the tab active.
+		$active.addClass('active');
+		$content.show();
+		// Prevent the anchor's default click action
+		e.preventDefault();
+		});
+		});
+		});
+		</script>	
+		<script type="text/javascript" language="JavaScript"><!--
+function activate(field) {
+  field.disabled=false;
+  if(document.styleSheets)field.style.visibility  = 'visible';
+  field.focus(); }
+function last_choice(selection) {
+  return selection.selectedIndex==selection.length - 1; }
+function process_choice(selection,textfield) {
+  if(last_choice(selection)) {
+    activate(textfield); }
+  else {
+    textfield.disabled = true;    
+    if(document.styleSheets)textfield.style.visibility  = 'hidden';
+    textfield.value = ''; }}
+function valid(menu,txt) {
+  if(menu.selectedIndex == 0) {
+    alert('You must make a selection from the menu');
+    return false;} 
+  if(txt.value == '') {
+    if(last_choice(menu)) {
+      alert('You need to type your choice into the text box');
+      return false; }
+    else {
+      return true; }}
+  else {
+    if(!last_choice(menu)) {
+      alert('Incompatible selection');
+      return false; }
+    else {
+      return true; }}}
+function check_choice() {
+  if(!last_choice(document.demoform.menu)) {
+    document.demoform.choicetext.blur();
+    alert('Please check your menu selection first');
+    document.demoform.menu.focus(); }}
+//--></script>
+<link rel="stylesheet" type="text/css" href="style.css">
+	</head>
+	<body>
+		<div class="nav">
+		
+		<!-- <p class="navbar-text navbar-right"><a href="#" class="navbar-link"></a></p> -->
+		<script>
+			var characters = new Array();
+			var others = new Array();
+			var myCharacter = new String;
+		</script>
+		<!-- <button type="button" onclick="runLines(alltext)">Run</button> -->
+		<ul class="tabs">
+			<li><a href="#tab1" class="active">Choose A File</a></li>
+			<li><a href="#tab2" class="">Character Settings</a></li>
+			<li><a href="#tab3" class="">Text Input</a></li>
+		</ul>
+		<div id="tab1" style="display: block;">
+			<h3>Choose A File</h3>
+			<p><input type="file" id="fileInput"> <!--input prompt for text file--></p>
+		</div>
+		<div id="tab2" style="display: none;">
+
+		<h3>Choose Number of Characters</h3>
+		<p>
+			<select id= "numChars" onchange="showCharBox()">
+				<option></option>
+				<option>1</option>
+				<option>2</option>
+				<option>3</option>
+				<option>4</option>
+				<option>5</option>
+				<option>6</option>
+			</select>
+			<div id= "charactersettings"></div>
+		</p>
+		</div>
+		<div id="tab3" style="display: none;">
+			<h3>Optional Text Input</h3>
+			<!-- <input type="text" name="inputBox" placeholder="Type here..."> -->
+			<div class="expandingArea">
+				<pre><span></span><br></pre>
+				<textarea placeholder="Click to type here..."></textarea>
+			</div> 
+		</div>
+</div>
+	</body>
+</html>
