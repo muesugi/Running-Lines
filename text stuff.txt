@@ -1,0 +1,22 @@
+		<p>
+			<div>
+				<input type="file" id="fileInput"> <!--input prompt for text file-->
+			</div>
+		</p>
+		
+		<form>
+		<fieldset>
+				<select id= "numChars" onchange="showCharBox()">
+					<option></option>
+					<option>1</option>
+					<option>2</option>
+					<option>3</option>
+					<option>4</option>
+					<option>5</option>
+					<option>6</option>
+				</select>
+				<div id= "charactersettings">
+
+				</div>
+		</fieldset>
+		</form>
