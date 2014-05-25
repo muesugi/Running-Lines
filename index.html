@@ -10,33 +10,31 @@
 		<script type="text/javascript">
 		//----- Website Formatting
 		function showCharBox(){
-			var numChars = document.getElementById("numChars").value;
-			var others = [];
+			var dropdown = document.getElementById("numChars");
+			var numChars = dropdown.value;
 			document.getElementById('charactersettings').innerHTML = "";
 			for (var character = 0; character < numChars; character++){
-				document.getElementById('charactersettings').innerHTML += "<p class='characters' id='character"+(character+1)+"'><label onclick='if (this.value) setMyCharacter("+(character+1)+")'>Character "+(character+1)+' </label><input type="text" onblur="if (this.value) AddtoCharacterList()" placeholder="Type here."></p>';
+				document.getElementById('charactersettings').innerHTML += "<p class='characters' id='character"+(character+1)+"'><label>Character "+(character+1)+' </label><input type="text" onblur="if (this.value) AddtoCharacterList(this.value)" placeholder="Type here."></p>';// onclick='if (this.value) setMyCharacter("+(character+1)+")'
 			}
 		}
 		//---- variables based on user settings (characters, female/male, etc)-----
-		function AddtoCharacterList(){
-			others = [];
-			for (var ch = 0; ch<numChars;ch++){
-				if ($("#character"+String(ch)).val() !== null){
-					others.push($("#character"+ch).val());
-				}
+		function AddtoCharacterList(value){
+			if (others.indexOf(value)==-1){
+				others.push(value);
 			}
-			alert(others[0]);
+			alert(others);
 		}
-		function setMyCharacter(idofcharacter){
-			if ($("#character"+String(idofcharacter)).val() != null){
-				var myCharacter = $("#"+String(idofcharacter)).val();
-				var i = others.indexOf(myCharacter);
-				if(i != -1) {
-					others.splice(i, 1);
-				}
-			}
-			
-		}
+		// function setMyCharacter(idofcharacter){
+// 			if ($("#character"+String(idofcharacter)).val() !== undefined){
+// 				alert($("#character"+String(idofcharacter)).val());
+// 				var myCharacter = $("#character"+String(idofcharacter)).val();
+// 				var i = others.indexOf(myCharacter);
+// 				if(i != -1) {
+// 					others.splice(i, 1);
+// 				}
+// 			}
+// 			
+// 		}
 		//-------for reading the text file input ------
 			window.onload = function() {
 				var fileInput = document.getElementById('fileInput');
@@ -106,6 +104,9 @@
 		</script>	
 	</head>
 	<body>
+		<script>
+			var others = new Array();
+		</script>
 		<!--<div>
       		<input type="file" id="fileInput"> <!--input prompt for text file-->
 		</div>-->
@@ -113,9 +114,7 @@
 		<div> <form>
 		<fieldset>
 			<legend>File</legend>
-				<div>
-					<input type="file" id="fileInput"> <!--input prompt for text file-->
-				</div>
+				<input type="file" id="fileInput"> <!--input prompt for text file-->
 			<legend>Characters</legend>
 				<select id= "numChars" onchange="showCharBox()">
 					<option></option>
@@ -126,7 +125,7 @@
 					<option>5</option>
 					<option>6</option>
 				</select>
-				<div id= "charactersettings">
+				<p id= "charactersettings">
 				<!--
 				<p> <label>Character 1
 				<input type="text" placeholder="Type here.">
@@ -143,7 +142,7 @@
 				</p>
 				</label>
 				-->
-				</div>
+				</p>
 		</fieldset>
 		</form>
 		</div> 
