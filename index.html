@@ -12,11 +12,13 @@
 		//----- Website Formatting
 		function showCharBox(){
 			var dropdown = document.getElementById("numChars");
-			var numChars = dropdown.value;
+			numChars = dropdown.value;
 			document.getElementById('charactersettings').innerHTML = "";
 			for (var character = 0; character < numChars; character++){
-				document.getElementById('charactersettings').innerHTML += "<p class='characters' id='character"+(character+1)+"'><label onclick='setMyCharacter("+(character+1)+")'>Character "+(character+1)+" </label><input type='text' onblur='if (this.value) AddtoCharacterList("+(character+1)+",this.value)' value='' placeholder='Type here.'></p>";
-		
+				document.getElementById('charactersettings').innerHTML += "<p class='characters' id='character"+(character+1)+"'></p>";
+				document.getElementById('character'+(character+1)).innerHTML += "<label onclick='setMyCharacter("+(character+1)+")'>Character "+(character+1)+" </label><input type='text' onblur='if (this.value) AddtoCharacterList("+(character+1)+",this.value)' value='' placeholder='Type here.'>";
+				document.getElementById('character'+(character+1)).innerHTML += "  <select name='voiceSelect' id='voiceSelect"+(character+1)+"'></select><br><br>"
+				loadVoices((character+1));
 			}
 		}
 		//---- variables based on user settings (characters, female/male, etc)-----
@@ -45,25 +47,29 @@
 			}
 		}
 		function setMyCharacter(num){
-			alert(num);
 			if (num==1){
-				myCharacter = character1.toString();
-				alert(character1);
+				myCharacter = character1;
+				myCharacternum = 1;
 			}
 			else if (num==2){
 				myCharacter = character2;
+				myCharacternum = 2;
 			}
 			else if (num==3){
 				myCharacter = character3;
+				myCharacternum = 3;
 			}
 			else if (num==4){
 				myCharacter = character4;
+				myCharacternum = 4;
 			}
 			else if (num==5){
 				myCharacter = character5;
+				myCharacternum = 5;
 			}
 			else if (num==6){
 				myCharacter = character6;
+				myCharacternum = 6;
 			}
 			for (var psn = 0; psn<characters.length;psn++){
 				if (psn!==(num-1)){
@@ -120,9 +126,20 @@
 				for (currline = 0; currline < chlinepairs.length; currline++){
 					var utterance = new SpeechSynthesisUtterance(chlinepairs[currline][1]);
 					var voices = window.speechSynthesis.getVoices();
-					//set character here  (voice)
-					utterance.voice = voices.filter(function(voice) { return voice.name == 'Alex'; })[0];
-					if (myCharacter==chlinepairs[currline][0]){
+	
+					for (var chara = 0;chara<numChars;chara++){
+						if (characters[chara]===chlinepairs[currline][0]){
+							var currCharacternum = chara+1;
+							var currCharacter =characters[chara];
+							var currVoiceSetting = document.getElementById('voiceSelect2').value;
+							utterance.voice = speechSynthesis.getVoices().filter(function(voice) { return voice.name == currVoiceSetting; })[0];
+						}
+					}
+					// var myCharacternum = (myCharacter.innerHTML).data;
+// 					alert(myCharacternum);
+// 					alert(currCharacternum);
+// 					
+					if (myCharacternum==currCharacternum){
 						alert("your turn!");
 					}
 					else{
@@ -131,6 +148,27 @@
 				}
 
 			}
+			function loadVoices(num) {
+				eval("var voiceSelect= document.getElementById('voiceSelect"+num+"');");
+			  // Fetch the available voices.
+				var voices = speechSynthesis.getVoices();
+  
+			  // Loop through each of the voices.
+				voices.forEach(function(voice, i) {
+				// Create a new option element.
+					var option = document.createElement('option');
+	
+				// Set the options value and text.
+					option.value = voice.name;
+					option.innerHTML = voice.name;
+		  
+				// Add the option to the voice selector.
+					voiceSelect.appendChild(option);
+				});
+			}
+
+			// Execute loadVoices.
+			loadVoices();
 			function speak(line){
 				var toSpeak = new SpeechSynthesisUtterance(line);
 				
@@ -177,7 +215,9 @@
 		<script>
 			var characters = new Array();
 			var others = new Array();
-			var myCharacter = new String;
+			var myCharacter = "";
+			var myCharacternum = 0;
+			var numChars = 0;
 		</script>
 		<button type="button" onclick="runLines(alltext)">Run</button>
 		<ul class="tabs">

@@ -28,3 +28,6 @@ text-decoration:none;
 background:#fff;
 color:#000;
 }
+.characters{
+	display:inline;
+}
