@@ -1,16 +1,39 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 	<head>
 		<meta charset="utf-8">
 		<title> Running Lines </title>
 		<link rel="stylesheet" type="text/css" href="index.css">
 		<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
-		<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+		<!--<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"> </script>
+		<link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">-->
 		<script type="text/javascript">
+		//----- Website Formatting
+		function showCharBox(){
+			var numChars = document.getElementById("numChars").value;
+			alert(numChars);
+			var charactersettings = document.getElementById('charactersettings');
+			document.getElementById('charactersettings').innerHTML = "";
+			for (var character = 0; character < numChars; character++){
+				document.getElementById('charactersettings').innerHTML += "<p class='characters' id="+(character+1)+" onhover='hoverCharacter("+(character+1)+")' onclick='setMyCharacter("+(character+1)+")'><label>Character "+(character+1)+" <input type='text' placeholder='Type here.' onchange='AddtoCharacterList("+(character+1)+")'></p></label>";
+			}
+		}
+		function hoverCharacter(idofcharacter){
+			document.getElementById(idofcharacter).style("color:red");
+		}
 		//---- variables based on user settings (characters, female/male, etc)-----
-		//settings.onchange
-			var mycharacter = new String //some input
-			var othercharacters = new Array() //all of the other characters
+		function AddtoCharacterList(idofcharacter){
+			var othercharacters = new Array();
+			othercharacters.push(document.getElementbyId(idofcharacter).value);
+			//if my character, remove from othercharacters
+
+		}
+		function setMyCharacter(idofcharacter){
+			if (typeof document.getElementbyId(idofcharacter).value != "undefined"){ 
+				var myCharacter = document.getElementbyId(idofcharacter).value;
+			}
+			othercharacters.remove(myCharacter);
+		}
 		//-------for reading the text file input ------
 			window.onload = function() {
 				var fileInput = document.getElementById('fileInput');
@@ -59,7 +82,13 @@
 			function runLines(chlinepairs){
 				//if the character is not == the user's character:
 				for (currline = 0; currline < chlinepairs.length; currline++){
-					speak(chlinepairs[currline][1]);
+					alert(chlinepairs[currline][0]);
+					if (othercharacters.indexOf(chlinepairs[currline][0])>=0){
+						speak(chlinepairs[currline][1]);
+					}
+					else{
+						alert("your turn!");
+					}
 				}
 
 			}
@@ -72,30 +101,40 @@
 			// If record button pressed again, speech api stops listening. var talking = computer
 
 		</script>	
-		
-		<style>
-		p.center
-		{
-		text-align:center;
-		}
-		</style>
+<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">
+<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap-theme.min.css">
+<script type="text/javascript" src="http://code.jquery.com/jquery.min.js"></script>
+<script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+<style type="text/css">
+	.hello-example{
+margin: 20px;
+	}
+</style>
 	</head>
+	
 	<body>
-			
+		
+		<p>
 		<div>
       		<input type="file" id="fileInput"> <!--input prompt for text file-->
 		</div>
+		</p>
 		
-		</p> <form>
+<!--		<p> <form>
 		<fieldset>
 			<legend>Characters</legend>
-				<select>
+				<select id= "numChars" onchange="showCharBox()">
+					<option></option>
 					<option>1</option>
 					<option>2</option>
 					<option>3</option>
+					<option>4</option>
+					<option>5</option>
+					<option>6</option>
 				</select>
-				
-				<p class-"center"> <label>Character 1
+				<div id= "charactersettings">
+				<!--
+				<p> <label>Character 1
 				<input type="text" placeholder="Type here.">
 				</p>
 				</label>
@@ -109,10 +148,38 @@
 				<input type="text" placeholder="Type here.">
 				</p>
 				</label>
+				
+				</div>
 		</fieldset>
 		</form>
-		</p> 
-	<script src "js/bootstrap.js"> </script>
-	
+		</p>		
+	<!---->
+		
+	<div class="hello-example">
+	<ul class="nav nav-tabs" id="myTab">
+        <li class="active"><a data-toggle="tab" href="#file">File</a></li>
+        <li class=""><a data-toggle="tab" href="#characters">Characters</a>
+		<form>
+		<fieldset>
+				<select id= "numChars" onchange="showCharBox()">
+					<option></option>
+					<option>1</option>
+					<option>2</option>
+					<option>3</option>
+					<option>4</option>
+					<option>5</option>
+					<option>6</option>
+				</select>
+				<div id= "charactersettings">
+
+				</div>
+		</fieldset>
+		</form> 
+
+		</li>
+    
+	</ul>
+</div>
+
 	</body>
 </html>
