@@ -5,29 +5,37 @@
 		<title> Running Lines </title>
 		<link rel="stylesheet" type="text/css" href="index.css">
 		<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
-		<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"> </script>
-		<link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+		<!--<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"> </script>
+		<link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">-->
 		<script type="text/javascript">
 		//----- Website Formatting
 		function showCharBox(){
 			var numChars = document.getElementById("numChars").value;
-			alert(numChars);
-			var charactersettings = document.getElementById('charactersettings');
+			var others = [];
 			document.getElementById('charactersettings').innerHTML = "";
 			for (var character = 0; character < numChars; character++){
-				document.getElementById('charactersettings').innerHTML += "<p class='characters' id="+(character+1)+" onclick='setMyCharacter("+(character+1)+")'><label>Character "+(character+1)+' <input type="text" placeholder="Type here." onchange="AddtoCharacterList('(character+1)')"></p></label>';
+				document.getElementById('charactersettings').innerHTML += "<p class='characters' id='character"+(character+1)+"'><label onclick='if (this.value) setMyCharacter("+(character+1)+")'>Character "+(character+1)+' </label><input type="text" onblur="if (this.value) AddtoCharacterList()" placeholder="Type here."></p>';
 			}
 		}
 		//---- variables based on user settings (characters, female/male, etc)-----
-		function AddtoCharacterList(idofcharacter){
-			var othercharacters = new Array();
-			othercharacters.push(document.getElementbyId(idofcharacter).value);
-			//if my character, remove from othercharacters
-
+		function AddtoCharacterList(){
+			others = [];
+			for (var ch = 0; ch<numChars;ch++){
+				if ($("#character"+String(ch)).val() !== null){
+					others.push($("#character"+ch).val());
+				}
+			}
+			alert(others[0]);
 		}
 		function setMyCharacter(idofcharacter){
-			var myCharacter = document.getElementbyId(idofcharacter).value;
-			othercharacters.remove(myCharacter);
+			if ($("#character"+String(idofcharacter)).val() != null){
+				var myCharacter = $("#"+String(idofcharacter)).val();
+				var i = others.indexOf(myCharacter);
+				if(i != -1) {
+					others.splice(i, 1);
+				}
+			}
+			
 		}
 		//-------for reading the text file input ------
 			window.onload = function() {
@@ -98,11 +106,11 @@
 		</script>	
 	</head>
 	<body>
-		//<div>
-      		//<input type="file" id="fileInput"> <!--input prompt for text file-->
-		//</div>
+		<!--<div>
+      		<input type="file" id="fileInput"> <!--input prompt for text file-->
+		</div>-->
 		
-		<p> <form>
+		<div> <form>
 		<fieldset>
 			<legend>File</legend>
 				<div>
@@ -138,8 +146,7 @@
 				</div>
 		</fieldset>
 		</form>
-		</p> 
-	<!---->
+		</div> 
 	
 	</body>
 </html>
