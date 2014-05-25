@@ -21,6 +21,7 @@
 				loadVoices((character+1));
 			}
 		}
+		var currVoiceSetting = document.getElementById("voiceSelect1");
 		//---- variables based on user settings (characters, female/male, etc)-----
 		function AddtoCharacterList(num,value){
 			var character = value.replace(/\s+/g, '');
@@ -126,24 +127,20 @@
 				for (currline = 0; currline < chlinepairs.length; currline++){
 					var utterance = new SpeechSynthesisUtterance(chlinepairs[currline][1]);
 					var voices = window.speechSynthesis.getVoices();
-	
 					for (var chara = 0;chara<numChars;chara++){
 						if (characters[chara]===chlinepairs[currline][0]){
 							var currCharacternum = chara+1;
+							currVoiceSetting = document.getElementById("voiceSelect"+String(currCharacternum));
 							var currCharacter =characters[chara];
-							var currVoiceSetting = document.getElementById('voiceSelect2').value;
-							utterance.voice = speechSynthesis.getVoices().filter(function(voice) { return voice.name == currVoiceSetting; })[0];
+							utterance.voice = speechSynthesis.getVoices().filter(function(voice) { return voice.name == currVoiceSetting.value; })[0];
 						}
 					}
-					// var myCharacternum = (myCharacter.innerHTML).data;
-// 					alert(myCharacternum);
-// 					alert(currCharacternum);
-// 					
 					if (myCharacternum==currCharacternum){
 						alert("your turn!");
 					}
 					else{
-						speak(chlinepairs[currline][1]);
+						window.speechSynthesis.speak(utterance);
+						//speak(chlinepairs[currline][1]);
 					}
 				}
 
